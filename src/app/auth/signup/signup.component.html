@@ -1,0 +1,67 @@
+<div
+  *ngIf="isLoading"
+  class="d-flex vh-100 justify-content-center align-items-center"
+>
+  <div
+    class="spinner-border"
+    style="width: 100px; height: 100px; color: #ff4723"
+    role="status"
+  >
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+<div class="container vh-100" *ngIf="!isLoading">
+  <div class="row h-100">
+    <div class="col d-flex justify-content-center align-items-center">
+      <div class="center">
+        <h1>Sign Up</h1>
+        <form #signupForm="ngForm" (ngSubmit)="onSignUp(signupForm)">
+          <div class="inputbox">
+            <input
+              type="text"
+              ngModel
+              name="username"
+              required
+              #nameInput="ngModel"
+            />
+            <span>Username</span>
+          </div>
+          <div class="inputbox">
+            <input
+              type="text"
+              ngModel
+              name="email"
+              email
+              required
+              #emailInput="ngModel"
+            />
+            <span>Email</span>
+          </div>
+          <div class="inputbox">
+            <input
+              type="password"
+              required="required"
+              ngModel
+              name="password"
+              required
+              #passwordInput="ngModel"
+            />
+            <span>Password</span>
+          </div>
+          <div class="inputbox">
+            <button
+              class="mt-2"
+              mat-raised-button
+              type="submit"
+              style="background-color: #ff4723"
+              [disabled]="signupForm.invalid"
+              [ngClass]="{ 'text-white': signupForm.valid }"
+            >
+              Sign Up
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

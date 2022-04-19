@@ -1,0 +1,94 @@
+<div
+  *ngIf="isLoading"
+  class="d-flex vh-100 justify-content-center align-items-center"
+>
+  <div
+    class="spinner-border"
+    style="width: 100px; height: 100px; color: #ff4723"
+    role="status"
+  >
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+<div class="row" *ngIf="!isLoading">
+  <div
+    class="
+      col-lg-6 col-sm-12
+      vh-100
+      offset-lg-3
+      d-flex
+      align-items-center
+      justify-content-center
+    "
+  >
+    <mat-card class="w-75 bg-dark">
+      <h1 class="text-center text-white">Edit Campground</h1>
+      <form [formGroup]="editCampgroundForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label class="form-label text-white" for="title">Title</label>
+          <input
+            type="text"
+            id="title"
+            class="form-control"
+            formControlName="title"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-white" for="location">Location</label>
+          <input
+            type="text"
+            id="location"
+            class="form-control"
+            formControlName="location"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-white" for="image">Image Url</label>
+          <input
+            type="text"
+            id="image"
+            class="form-control"
+            formControlName="image"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-white" for="description"
+            >Description</label
+          >
+          <textarea
+            id="description"
+            class="form-control"
+            formControlName="description"
+            rows="3"
+          ></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-white" for="price"
+            >Campground Price</label
+          >
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="price">$</span>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="price"
+              placeholder="0.00"
+              aria-label="price"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+        </div>
+        <button
+          class="mt-2"
+          mat-raised-button
+          type="submit"
+          style="background-color: #ff4723"
+          [disabled]="editCampgroundForm.invalid"
+          [ngClass]="{ 'text-white': editCampgroundForm.valid }"
+        >
+          Edit Campground
+        </button>
+      </form>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,197 @@
+<div
+  *ngIf="isLoading"
+  class="d-flex vh-100 justify-content-center align-items-center"
+>
+  <div
+    class="spinner-border"
+    style="width: 100px; height: 100px; color: #ff4723"
+    role="status"
+  >
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+<div class="row" *ngIf="!isLoading">
+  <div
+    class="
+      ps-4
+      pe-4
+      col-12 col-lg-6
+      vh-100
+      d-flex
+      justify-content-end
+      align-items-center
+    "
+  >
+    <div class="card bg-dark" style="width: 500px; border-color: #ff411c">
+      <img
+        [src]="campground?.image"
+        class="card-img-top"
+        style="max-height: 400px"
+      />
+      <div class="card-body">
+        <h2 class="card-title text-white">{{ campground?.title }}</h2>
+        <p class="card-text text-white">
+          {{ campground?.description }}
+        </p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li
+          class="list-group-item bg-dark text-white"
+          style="border-color: #ff411c"
+        >
+          {{ campground?.location }}
+        </li>
+        <li
+          class="list-group-item bg-dark text-white"
+          style="border-color: #ff411c"
+        >
+          By {{ campground?.creator.username }}
+        </li>
+        <li class="list-group-item bg-dark text-white">
+          ${{ campground?.price }}/night
+        </li>
+      </ul>
+      <div
+        class="card-body"
+        *ngIf="userISAuthenticated && userId == campground?.creator._id"
+      >
+        <a
+          mat-raised-button
+          class="me-2"
+          style="background-color: #ff411c; color: white"
+          [routerLink]="['/campgrounds', id, 'edit']"
+        >
+          Edit Campground
+        </a>
+        <button
+          mat-raised-button
+          style="background-color: #ff411c; color: white"
+          type="button"
+          (click)="onDeleteCampground()"
+        >
+          Delete Campground
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="col-lg-6 col-12 flex-column justify-content-center align-items-start"
+    style="margin-top: 100px"
+  >
+    <form #reviewForm="ngForm" (ngSubmit)="onSubmitReviewForm(reviewForm)">
+      <h2 class="text-white">Leave a Review</h2>
+      <fieldset class="starability-growRotate">
+        <input
+          type="radio"
+          id="no-rate"
+          class="input-no-rate"
+          name="rating"
+          value="1"
+          checked
+          aria-label="No rating."
+        />
+        <input
+          type="radio"
+          id="second-rate1"
+          ngModel
+          name="rating"
+          required
+          value="1"
+        />
+        <label for="second-rate1" title="Terrible">1 star</label>
+        <input
+          type="radio"
+          id="second-rate2"
+          ngModel
+          name="rating"
+          required
+          value="2"
+        />
+        <label for="second-rate2" title="Not good">2 stars</label>
+        <input
+          type="radio"
+          id="second-rate3"
+          ngModel
+          name="rating"
+          required
+          value="3"
+        />
+        <label for="second-rate3" title="Average">3 stars</label>
+        <input
+          type="radio"
+          id="second-rate4"
+          ngModel
+          name="rating"
+          required
+          value="4"
+        />
+        <label for="second-rate4" title="Very good">4 stars</label>
+        <input
+          type="radio"
+          id="second-rate5"
+          ngModel
+          name="rating"
+          required
+          value="5"
+        />
+        <label for="second-rate5" title="Amazing">5 stars</label>
+      </fieldset>
+
+      <div class="mb-3">
+        <label for="body" class="form-label text-white">Review</label>
+        <textarea
+          name="body"
+          class="form-control mb-5"
+          style="width: 500px"
+          id="body"
+          rows="3"
+          ngModel
+          name="body"
+          required
+        ></textarea>
+      </div>
+      <button
+        class="mt-2"
+        mat-raised-button
+        type="submit"
+        style="background-color: #ff4723"
+        [disabled]="reviewForm.invalid"
+        [ngClass]="{ 'text-white': reviewForm.valid }"
+      >
+        Submit
+      </button>
+    </form>
+
+    <div class="row">
+      <hr style="background-color: #ff4723; margin-top: 10px" />
+      <div class="col-12">
+        <div
+          class="mb-3 card bg-dark"
+          style="border-color: #ff4723; width: 600px"
+          *ngFor="let review of reviews"
+        >
+          <div class="card-body">
+            <p
+              class="starability-result"
+              attr.data-rating="{{ review.rating }}"
+            >
+              Rated: {{ review.rating }} stars
+            </p>
+            <p class="text-white card-text">By: {{ review.username }}</p>
+            <p class="text-white card-text">Review: {{ review.body }}</p>
+            <button
+              class="text-white"
+              mat-raised-button
+              style="background-color: #ff4723"
+              type="button"
+              *ngIf="userISAuthenticated && userId === review.userId"
+              (click)="onDeleteReview(review._id)"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
